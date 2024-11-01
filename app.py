@@ -1,12 +1,14 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import Date, Integer, String, ForeignKey, 
+from sqlalchemy import Date, Integer, String, ForeignKey, select, delete
 from flask_marshmallow import Marshmallow
 from marshmallow import fields, Schema
 import datetime
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:CodingTemple@localhost/expeditionary_force"
+
 
 class Base(DeclarativeBase):
     pass
@@ -26,8 +28,8 @@ class Books(db.Model):
     author_summary: Mapped[str] = mapped_column(String(255))
     image: Mapped[str] = mapped_column(String(255))
     
-    planet: Mapped["Planets"] = relationship("Planets", back_populates='first_book_appearance_id', uselist=True)
-    character: Mapped["Characters"] = relationship("Characters", back_populates='first_book_appearance_id', uselist=True)
+    planet: Mapped["Planets"] = relationship("Planets", back_populates='book', uselist=True)
+    character: Mapped["Characters"] = relationship("Characters", back_populates='book', uselist=True)
 
 class BookSchema(Schema):
     book_id = fields.Int(required=False)
@@ -54,7 +56,7 @@ class Species(db.Model):
     nickname: Mapped[str] = mapped_column(String(255))
     coalition: Mapped[str] = mapped_column(String(255))
     # Foreign key to Ship
-    ship: Mapped["Ships"] = relationship("Chips", back_populates='species_id', uselist=True)
+    ship: Mapped["Ships"] = relationship("Ships", back_populates='species', uselist=True)
 
 class SpeciesSchema(Schema):
     species_id = fields.Int(required=False)
@@ -123,15 +125,24 @@ characters_schema = CharactersSchema(many=True)
 
 class Ships(db.Model):
     __tablename__ = "ships"
-    ship_id = Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    ship_name = Mapped[str] = mapped_column(String(255)) 
-    ship_type = Mapped[str] = mapped_column(String(255)) 
-    status = Mapped[str] = mapped_column(String(255)) 
+    ship_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    ship_name: Mapped[str] = mapped_column(String(255)) 
+    ship_type: Mapped[str] = mapped_column(String(255)) 
+    status: Mapped[str] = mapped_column(String(255)) 
 
-    ship_id: Mapped[int] = mapped_column(Integer, ForeignKey('species.species_id'), unique=True)
+    species_id: Mapped[int] = mapped_column(Integer, ForeignKey('species.species_id'), unique=True)
 
     species: Mapped["Species"] = relationship("Species", back_populates='ship')
 
+class ShipsSchema(Schema):
+    ship_id = fields.Int(required=False)
+    ship_name = fields.Str(required=True)
+    ship_type = fields.Str(required=True)
+    status = fields.Str(required=True)
+    species_id = fields.Nested(species_schema)
+
+ship_schema = ShipsSchema()
+ships_schema = ShipsSchema(many=True)
 species_planets_table = db.Table(
     "species_planets_table",
     Base.metadata,
@@ -140,3 +151,31 @@ species_planets_table = db.Table(
     # db.Column
 )
 
+@app.route("/")
+def home():
+    return "Hello world!!"
+
+with app.app_context():
+    db.create_all()
+
+@app.route("/books", methods=['GET'])
+def get_books():
+    rows = select(Books)
+
+    result = db.session.execute(rows).scalars()
+    books = result.all()
+    return books_schema.dump(books)
+
+# @app.route("/ships", methods=['GET'])
+# def get_ships():
+#     rows = select(Ships)
+
+#     result = db.session.execute(rows).scalars()
+#     ships = result.all()
+#     return ships_schema.dump(ships)
+
+# @app.route("/ships/<int:id>", methods=['GET'])
+# def get_single_ship(id):
+#     rows = select(Ships).where(Ships.ship_id == id)
+
+#     result = db.session.execute(rows).scalars()
