@@ -27,9 +27,12 @@ class Books(db.Model):
     next: Mapped[str] = mapped_column(String(255))
     author_summary: Mapped[str] = mapped_column(String(255))
     image: Mapped[str] = mapped_column(String(255))
+    author: Mapped[str] = mapped_column(String(255))
+    narrator: Mapped[str] = mapped_column(String(255))
+    run_time: Mapped[str] = mapped_column(String(255))
     
-    planet: Mapped["Planets"] = relationship("Planets", back_populates='book', uselist=True)
-    character: Mapped["Characters"] = relationship("Characters", back_populates='book', uselist=True)
+    planet: Mapped["Planets"] = relationship("Planets", back_populates='first_book_appearance', uselist=True)
+    character: Mapped["Characters"] = relationship("Characters", back_populates='first_book_appearance', uselist=True)
 
 class BookSchema(Schema):
     book_id = fields.Int(required=False)
@@ -39,9 +42,12 @@ class BookSchema(Schema):
     next = fields.Str(required=True)
     author_summary = fields.Str(required=True)
     image = fields.Str(required=True)
+    author = fields.Str(required=True)
+    narrator = fields.Str(required=True)
+    run_time = fields.Str(required=True)
 
     class Meta: 
-        fields = ('book_id', 'book_name', 'release_date', 'previous', 'next', 'author_summary', 'image')
+        fields = ('book_id', 'book_name', 'release_date', 'previous', 'next', 'author_summary', 'image', 'author', 'narrator', 'run_time')
 
 book_schema = BookSchema()
 books_schema = BookSchema(many=True)
@@ -80,16 +86,16 @@ class Planets(db.Model):
     planet_nickname: Mapped[str] = mapped_column(String(255))
     first_book_appearance_id: Mapped[int] = mapped_column(Integer, ForeignKey('books.book_id'), unique=True)
     # Does the Planet & Book relationship need to be one to many?
-    book: Mapped["Books"] = relationship("Books", back_populates="planet")
+    first_book_appearance: Mapped["Books"] = relationship("Books", back_populates="planet")
 
 class PlanetsSchema(Schema):
     planet_id = fields.Int(required=False)
     planet_name = fields.Str(required=True)
     planet_nickname = fields.Str(required=True)
-    first_book_appearance_id = fields.Nested(book_schema)
+    first_book_appearance = fields.Nested(BookSchema)
 
     class Meta: 
-        fields = ('planet_id', 'planet_name', 'planet_nickname', 'first_book_appearance_id')
+        fields = ('planet_id', 'planet_name', 'planet_nickname', 'first_book_appearance')
     
 planet_schema = PlanetsSchema()
 planets_schema = PlanetsSchema(many=True)
@@ -105,8 +111,9 @@ class Characters(db.Model):
     
     # foreign key to book table
     first_book_appearance_id: Mapped[int] = mapped_column(Integer, ForeignKey('books.book_id'), unique=True)
+    first_book_appearance: Mapped["Books"] = relationship("Books", back_populates="character")
 
-    book: Mapped["Books"] = relationship("Books", back_populates="character")
+    # book: Mapped["Books"] = relationship("Books", back_populates="character")
 
 class CharactersSchema(Schema):
     character_id = fields.Int(required=False)
@@ -115,10 +122,10 @@ class CharactersSchema(Schema):
     status = fields.Str(required=True)
     last_known_location = fields.Str(required=True)
     sex = fields.Str(required=True)
-    first_book_appearance_id = fields.Nested(book_schema)
+    first_book_appearance = fields.Nested(BookSchema)
 
     class Meta: 
-        fields = ('character_id', 'character_name', 'description', 'status', 'last_known_location', 'sex', 'first_book_appearance_id')
+        fields = ('character_id', 'character_name', 'description', 'status', 'last_known_location', 'sex', 'first_book_appearance')
 
 character_schema = CharactersSchema()
 characters_schema = CharactersSchema(many=True)
@@ -139,7 +146,8 @@ class ShipsSchema(Schema):
     ship_name = fields.Str(required=True)
     ship_type = fields.Str(required=True)
     status = fields.Str(required=True)
-    species_id = fields.Nested(species_schema)
+    species = fields.Nested(SpeciesSchema)
+
 
 ship_schema = ShipsSchema()
 ships_schema = ShipsSchema(many=True)
@@ -156,6 +164,7 @@ def home():
     return "Hello world!!"
 
 with app.app_context():
+    # db.drop_all()
     db.create_all()
 
 @app.route("/books", methods=['GET'])
@@ -165,6 +174,38 @@ def get_books():
     result = db.session.execute(rows).scalars()
     books = result.all()
     return books_schema.dump(books)
+
+@app.route("/characters", methods=['GET'])
+def get_characters():
+    rows = select(Characters)
+
+    result = db.session.execute(rows).scalars()
+    characters = result.all()
+    return characters_schema.dump(characters)
+
+@app.route("/planets", methods=['GET'])
+def get_planets():
+    rows = select(Planets)
+
+    result = db.session.execute(rows).scalars()
+    planets = result.all()
+    return planets_schema.dump(planets)
+
+@app.route("/species", methods=['GET'])
+def get_species():
+    rows = select(Species)
+
+    result = db.session.execute(rows).scalars()
+    species = result.all()
+    return speciess_schema.dump(species)
+
+@app.route("/ships", methods=['GET'])
+def get_ships():
+    rows = select(Ships)
+
+    result = db.session.execute(rows).scalars()
+    ships = result.all()
+    return ships_schema.dump(ships)
 
 # @app.route("/ships", methods=['GET'])
 # def get_ships():
