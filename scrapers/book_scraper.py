@@ -1,12 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
-import mysql.connector
-from mysql.connector import Error
-from models.books import Books
 from database import db
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from datetime import datetime
+from models.books import Books
 
 # def connect_database():
 #     db_name = "expeditionary_force"
