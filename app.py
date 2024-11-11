@@ -6,6 +6,7 @@ from flask_marshmallow import Marshmallow
 from marshmallow import fields, Schema
 from scrapers.book_scraper import book_scraper
 from scrapers.species_scraper import species_scraper
+from scrapers.ship_scraper import ship_scraper
 from database import db
 import datetime
 from models.books import BookSchema, book_schema, books_schema, Books
@@ -13,6 +14,7 @@ from models.characters import Characters, character_schema, characters_schema, C
 from models.planets import Planets, planet_schema, planets_schema, PlanetsSchema
 from models.ships import ship_schema, ships_schema, Ships, ShipsSchema
 from models.species import species_schema, speciess_schema, Species, SpeciesSchema
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:CodingTemple@localhost/expeditionary_force"
@@ -86,6 +88,7 @@ with app.app_context():
     db.create_all()
     # book_scraper()
     # species_scraper()
+    ship_scraper()
 
 
 # @app.route("/ships", methods=['GET'])

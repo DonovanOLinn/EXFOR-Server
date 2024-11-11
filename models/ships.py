@@ -11,7 +11,7 @@ class Ships(db.Model):
     ship_type: Mapped[str] = mapped_column(String(255)) 
     status: Mapped[str] = mapped_column(String(255)) 
 
-    species_id: Mapped[int] = mapped_column(Integer, ForeignKey('species.species_id'), unique=True)
+    species_id: Mapped[int] = mapped_column(Integer, ForeignKey('species.species_id'))
 
     species: Mapped["Species"] = relationship("Species", back_populates='ship')
 
