@@ -17,6 +17,14 @@ Currently I'm using MySQL, but I'll adjust the database to a PostgreSQL database
 
 - Host the built Flask application using EBS 
 
+- Clean up commented out code and rework the previous scrapers using utilities in util.py
+
+- Set up automation to perform the scrapes once a month
+
+- Set up test cases
+
+- Set up CI/CD workflow
+
 - Begin development of React Frontend Application
 
 ## How to clone: 
@@ -38,7 +46,13 @@ Fourth, set up your virtual environment:
     mac/linux: python3 -m venv venv
 ```
 
-fifth, do the installs: 
+fifth, turn on the virtual environment: 
+```bash
+    windows: venv\scripts\activate
+    mac/linux: source venv/bin/activate
+```
+
+sixth, do the installs: 
 ```bash
     pip install -r requirements.txt
 ```
