@@ -19,7 +19,7 @@ class Books(db.Model):
     narrator: Mapped[str] = mapped_column(String(255))
     run_time: Mapped[str] = mapped_column(String(255))
     
-    planet: Mapped["Planets"] = relationship("Planets", back_populates='first_book_appearance', uselist=True)
+    # planet: Mapped["Planets"] = relationship("Planets", back_populates='first_book_appearance', uselist=True)
     character: Mapped["Characters"] = relationship("Characters", back_populates='first_book_appearance', uselist=True)
 
 class BookSchema(Schema):

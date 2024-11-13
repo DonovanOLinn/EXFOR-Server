@@ -7,6 +7,7 @@ from marshmallow import fields, Schema
 from scrapers.book_scraper import book_scraper
 from scrapers.species_scraper import species_scraper
 from scrapers.ship_scraper import ship_scraper
+from scrapers.planets_scraper import planet_scraper
 from database import db
 import datetime
 from models.books import BookSchema, book_schema, books_schema, Books
@@ -17,7 +18,7 @@ from models.species import species_schema, speciess_schema, Species, SpeciesSche
 
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:CodingTemple@localhost/expeditionary_force"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:{your_password_here}@localhost/expeditionary_force"
 
 
 class Base(DeclarativeBase):
@@ -28,13 +29,13 @@ db.init_app(app)
 ma = Marshmallow
 
 
-species_planets_table = db.Table(
-    "species_planets_table",
-    Base.metadata,
-    db.Column("species_id", db.ForeignKey('species.species_id'), primary_key=True),
-    db.Column("planets_id", db.ForeignKey('planets.planet_id'), primary_key=True),
-    # db.Column
-)
+# species_planets_table = db.Table(
+#     "species_planets_table",
+#     Base.metadata,
+#     db.Column("species_id", db.ForeignKey('species.species_id'), primary_key=True),
+#     db.Column("planets_id", db.ForeignKey('planets.planet_id'), primary_key=True),
+#     # db.Column
+# )
 
 @app.route("/")
 def home():
@@ -88,7 +89,8 @@ with app.app_context():
     db.create_all()
     # book_scraper()
     # species_scraper()
-    ship_scraper()
+    # ship_scraper()
+    planet_scraper()
 
 
 # @app.route("/ships", methods=['GET'])
