@@ -1,12 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
 from util import parent_child_parser
-# from database import db
-# from sqlalchemy.orm import Session
-# from sqlalchemy import select
-# from datetime import datetime
-# from models.planets import Planets
-# from util import parent_child_parser
+from database import db
+from sqlalchemy.orm import Session
+from sqlalchemy import select
+from datetime import datetime
+from models.characters import Characters
+from util import episode_dictionary
 
 def character_name_scraper(parser):
     f_name = parent_child_parser(parser, "First Name")
@@ -35,10 +35,35 @@ def character_first_appearance_scraper(parser):
     return parent_child_parser(parser, "First Appearance")
 
 def add_to_db(character_dict):
-    pass
+    for character, info in character_dict.items():
+        with Session(db.engine) as session:
+            with session.begin():
+                query = select(Characters).filter(Characters.character_name == info['name'])
+                result = session.execute(query).scalars().first()
+
+                if result == None:
+                    new_character = Characters(
+                        character_id=info['id'],
+                        character_name=info['name'],
+                        description=info['description'],
+                        status=info['status'],
+                        last_known_location=info['last_known_location'],
+                        sex=info['sex'],
+                        first_book_appearance_id=episode_dictionary.get(info['first_appearance'], 21)
+                    )
+                    session.add(new_character)
+                    session.commit()
+                else:
+                    character = result
+                    for field, value in info.items():
+                        setattr(character, field, value)
+                    session.commit()
+
+
 def character_scraper():
     characters = []
     character_dict = {}
+    id = 1
 
     characters_page = requests.get(f'https://expeditionary-force-by-craig-alanson.fandom.com/wiki/Notable_Characters')
     if characters_page.status_code == 200:
@@ -56,6 +81,8 @@ def character_scraper():
     excluded_names = ('#The_Merry_Band_of_Pirates', '/wiki/The_Mavericks_(group)', '/wiki/Humans', '/wiki/Earth', '/wiki/UNEF', '/wiki/Alien_Legion', '/wiki/Keepers_of_the_Faith', 
                       '/wiki/Verd-kris', '/wiki/Jeraptha', '/wiki/Maxolhx', '/wiki/Bosphuraq', '/wiki/Rindhalu', '/wiki/Thuranin', '/wiki/Wurgalan')
     
+
+    
     for character in characters:
         if character not in excluded_names:
             character_page = requests.get(f'https://expeditionary-force-by-craig-alanson.fandom.com{character}')
@@ -65,6 +92,7 @@ def character_scraper():
                 
                 print(name)
                 character_dict[name] = {
+                    'id': id,
                     'name': name,
                     'description': character_description_scraper(character_soup),
                     'status': character_status_scraper(character_soup),
@@ -73,11 +101,15 @@ def character_scraper():
                     'first_appearance': character_first_appearance_scraper(character_soup)
                 }
                 print(character_dict[name])
-                break
             else:
                 print("Connection was unsuccessful")
+                return "Connection was unsuccessful"
+            
+            
+            id += 1
+    add_to_db(character_dict)
 
-character_scraper()
+# character_scraper()
 
 
     

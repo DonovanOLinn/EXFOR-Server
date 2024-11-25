@@ -8,6 +8,7 @@ from scrapers.book_scraper import book_scraper
 from scrapers.species_scraper import species_scraper
 from scrapers.ship_scraper import ship_scraper
 from scrapers.planets_scraper import planet_scraper
+from scrapers.characters_scraper import character_scraper
 from database import db
 import datetime
 from models.books import BookSchema, book_schema, books_schema, Books
@@ -90,7 +91,8 @@ with app.app_context():
     # book_scraper()
     # species_scraper()
     # ship_scraper()
-    planet_scraper()
+    # planet_scraper()
+    # character_scraper()
 
 
 # @app.route("/ships", methods=['GET'])

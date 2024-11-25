@@ -9,13 +9,13 @@ class Characters(db.Model):
     __tablename__= "characters"
     character_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     character_name: Mapped[str] = mapped_column(String(255))
-    description: Mapped[str] = mapped_column(String(255))
+    description: Mapped[str] = mapped_column(String(5000))
     status: Mapped[str] = mapped_column(String(255))
     last_known_location: Mapped[str] = mapped_column(String(255))
     sex: Mapped[str] = mapped_column(String(255))
     
     # foreign key to book table
-    first_book_appearance_id: Mapped[int] = mapped_column(Integer, ForeignKey('books.book_id'), unique=True)
+    first_book_appearance_id: Mapped[int] = mapped_column(Integer, ForeignKey('books.book_id'))
     first_book_appearance: Mapped["Books"] = relationship("Books", back_populates="character")
 
     # book: Mapped["Books"] = relationship("Books", back_populates="character")

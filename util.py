@@ -26,3 +26,25 @@ species_dictionary = {
     "Urgar":14,
     "No Data":15,
 }
+
+episode_dictionary = {
+    'ExForce 1: Columbus Day': 1,	
+    'ExForce 2: Spec Ops': 2,	
+    'ExForce 3: Paradise': 3,	
+    'ExForce 3.5: Trouble on Paradise': 4,	
+    'ExForce 4: Black Ops': 5,	
+    'ExForce 5: Zero Hour': 6,	
+    'ExForce 6: Mavericks': 7,	
+    'ExForce 7: Renegades': 8,	
+    'ExForce 7.5: Homefront': 9,	
+    'ExForce 8: Armageddon': 10,	
+    'ExForce 9: Valkyrie': 11,	
+    'ExForce 10: Critical Mass': 12,	
+    'ExForce 11: Brushfire': 13,	
+    'ExForce 12: Breakaway': 14,	
+    'ExForce 13: Fallout': 15,	
+    'ExForce 14: Match Game': 16,
+    'ExForce 15: Failure Mode': 17,
+    'ExForce 16: Aftermath': 18,
+    'ExForce 17: Task Force Hammer': 19
+}
