@@ -25,7 +25,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:{your_passw
 class Base(DeclarativeBase):
     pass
 
-# db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 ma = Marshmallow
 
