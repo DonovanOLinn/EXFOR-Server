@@ -7,8 +7,6 @@ Currently I'm using MySQL, but I'll adjust the database to a PostgreSQL database
 
 ## Roadmap
 
-- Finish up the Characters scraper and test on temp database
-
 - Set up login and auth functionality
 
 - Create routes that allow for more dynamic data retrieval. 
