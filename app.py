@@ -16,10 +16,13 @@ from models.characters import Characters, character_schema, characters_schema, C
 from models.planets import Planets, planet_schema, planets_schema, PlanetsSchema
 from models.ships import ship_schema, ships_schema, Ships, ShipsSchema
 from models.species import species_schema, speciess_schema, Species, SpeciesSchema
+from dotenv import load_dotenv
+import os
 
-
+load_dotenv()
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:{your_password_here}@localhost/expeditionary_force"
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 
 
 class Base(DeclarativeBase):
