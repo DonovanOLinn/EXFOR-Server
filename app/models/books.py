@@ -1,10 +1,10 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy import Date, Integer, String, ForeignKey, select, delete
 from marshmallow import fields, Schema
-from database import db
+from app.models import db
 # from planets import Planets
 import datetime
-# from characters import Characters
+# from .characters import Characters
 
 class Books(db.Model):
     __tablename__ = "books"

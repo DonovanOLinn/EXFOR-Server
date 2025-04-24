@@ -1,9 +1,9 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy import Date, Integer, String, ForeignKey, select, delete
 from marshmallow import fields, Schema
-from database import db
+from app.models import db
 
-from models.books import BookSchema
+from app.models.books import BookSchema, Books
 
 class Characters(db.Model):
     __tablename__= "characters"

@@ -1,9 +1,7 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy import Date, Integer, String, ForeignKey, select, delete
-from models.books import BookSchema, Books
 from marshmallow import fields, Schema
-from database import db
-import datetime
+from app.models import db
 
 class Planets(db.Model):
     __tablename__ = "planets"
