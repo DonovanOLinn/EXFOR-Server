@@ -8,8 +8,8 @@ from app.scrapers.characters_scraper import character_scraper
 def run_all_scrapers():
     try:
         # species_scraper()
-        ship_scraper()
-        # planet_scraper()
+        # ship_scraper()
+        planet_scraper()
         # book_scraper()
         # character_scraper()
     except Exception as e:

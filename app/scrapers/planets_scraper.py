@@ -28,6 +28,7 @@ def planet_name_scraper(parser):
         pass
 
 def planet_nickname_scraper(parser):
+    #  TODO Seems to be returning the regular name, not the nickname
     return parent_child_parser(parser, "Nickname")
 
 def add_to_db(planet_dict):
