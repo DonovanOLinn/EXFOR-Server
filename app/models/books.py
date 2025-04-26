@@ -13,7 +13,7 @@ class Books(db.Model):
     release_date: Mapped[datetime.date] = mapped_column(Date)
     previous: Mapped[str] = mapped_column(String(255))
     next: Mapped[str] = mapped_column(String(255))
-    author_summary: Mapped[str] = mapped_column(String(255))
+    author_summary: Mapped[str] = mapped_column(String(2048))
     image: Mapped[str] = mapped_column(String(255))
     author: Mapped[str] = mapped_column(String(255))
     narrator: Mapped[str] = mapped_column(String(255))
