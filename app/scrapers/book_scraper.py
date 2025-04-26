@@ -151,8 +151,8 @@ def add_to_db(book_dict, book_title):
 
 def book_scraper():
     book_title = ['ExForce_1:_Columbus_Day', 'ExForce_2:_Spec_Ops', 'ExForce_3:_Paradise', 'ExForce_3.5:_Trouble_on_Paradise', 'ExForce_4:_Black_Ops',
-              'ExForce_5:_Zero_Hour', 'ExForce_6:_Mavericks', 'ExForce_7:_Renegades', 'ExForce_7.5:_Homefront', 'ExForce_8:_Armageddon', 'ExForce_9:_Valkyrie',
-              'ExForce_10:_Critical_Mass', 'ExForce_11:_Brushfire', 'ExForce_12:_Breakaway', 'ExForce_13:_Fallout', 'ExForce_14:_Match_Game', 'ExForce_15:_Failure_Mode', 
+              'ExForce_5:_Zero_Hour', 'ExForce_6:_Mavericks', 'ExForce_7:_Renegades', 'ExForce_7.5:_Homefront', 'Mavericks_Book_1:_Deathtrap', 'ExForce_8:_Armageddon', 'ExForce_9:_Valkyrie',
+              'Mavericks_Book_2:_Freefall', 'ExForce_10:_Critical_Mass', 'ExForce_11:_Brushfire', 'ExForce_12:_Breakaway', 'ExForce_13:_Fallout', 'ExForce_14:_Match_Game', 'ExForce_15:_Failure_Mode', 
               'ExForce_16:_Aftermath', 'ExForce_17:_Task_Force_Hammer']
 
     book_dict = {}

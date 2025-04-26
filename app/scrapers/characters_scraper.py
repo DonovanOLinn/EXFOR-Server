@@ -12,6 +12,7 @@ def character_name_scraper(parser):
     f_name = parent_child_parser(parser, "First Name")
     l_name = parent_child_parser(parser, "Last Name")
     return f"{f_name} {l_name}"
+
 def character_description_scraper(parser):
     parent = parser.find("td", class_="gradient")
     descriptions = [child for child in parent.children if child.name == 'p']
