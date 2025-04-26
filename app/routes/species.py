@@ -1,7 +1,7 @@
 from flask import Blueprint
 from sqlalchemy import select
 from app.models import db
-from app.models.species import Species, species_schema
+from app.models.species import Species, speciess_schema
 
 species_bp = Blueprint("species", __name__)
 
@@ -11,4 +11,4 @@ def get_species():
 
     result = db.session.execute(rows).scalars()
     species = result.all()
-    return species_schema.dump(species)
+    return speciess_schema.dump(species)
