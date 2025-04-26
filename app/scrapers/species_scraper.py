@@ -117,6 +117,9 @@ def species_scraper():
         patron = species_patron(soup)
         tech_level = species_tech_level(soup)
         nickname = species_nickname(soup)
+        # Need to set up separate system to catch scraper errors for individual investigation
+        if nickname[:5] == "Error":
+            nickname = "Unknown"
         coalition = coalition_dict[species]
 
         species_dict[species] = {
