@@ -1,6 +1,6 @@
 from flask import Blueprint
 from sqlalchemy import select
-from database import db
+from app.models import db
 from app.models.books import Books, books_schema
 
 books_bp = Blueprint("books", __name__)

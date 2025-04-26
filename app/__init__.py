@@ -9,4 +9,8 @@ def create_app():
     db.init_app(app)
     init_routes(app)
 
+    @app.route("/")
+    def hello_world():
+        return "<h1>Hello, World!</h1>"
+
     return app

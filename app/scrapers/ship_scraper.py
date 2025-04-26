@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
-from database import db
+from app.models import db
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from datetime import datetime
-from models.ships import Ships
+from app.models.ships import Ships
 from util import parent_child_parser, species_dictionary
 
 def ship_name_scraper(parser):

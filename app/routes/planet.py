@@ -1,6 +1,6 @@
 from flask import Blueprint
 from sqlalchemy import select
-from database import db
+from app.models import db
 from app.models.planets import Planets, planets_schema
 
 planets_bp = Blueprint("planets", __name__)

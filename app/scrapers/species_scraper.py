@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
-from database import db
+from app.models import db
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from datetime import datetime
-from models.species import Species
+from app.models.species import Species
 def species_apperance_(parser): 
     try: 
         species_finder = parser.find("h3",string="General Apperance" )

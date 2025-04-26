@@ -1,6 +1,6 @@
 from flask import Blueprint
 from sqlalchemy import select
-from database import db
+from app.models import db
 from app.models.characters import Characters, characters_schema
 
 characters_bp = Blueprint("characters", __name__)

@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
-from database import db
+from app.models import db
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from datetime import datetime
-from models.books import Books
+from app.models.books import Books
 
 # def connect_database():
 #     db_name = "expeditionary_force"
