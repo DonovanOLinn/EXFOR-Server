@@ -1,10 +1,10 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy import Date, Integer, String, ForeignKey, select, delete
 from marshmallow import fields, Schema
-from database import db
+from app.models import db
 # from planets import Planets
 import datetime
-# from characters import Characters
+# from .characters import Characters
 
 class Books(db.Model):
     __tablename__ = "books"
@@ -13,7 +13,7 @@ class Books(db.Model):
     release_date: Mapped[datetime.date] = mapped_column(Date)
     previous: Mapped[str] = mapped_column(String(255))
     next: Mapped[str] = mapped_column(String(255))
-    author_summary: Mapped[str] = mapped_column(String(255))
+    author_summary: Mapped[str] = mapped_column(String(2048))
     image: Mapped[str] = mapped_column(String(255))
     author: Mapped[str] = mapped_column(String(255))
     narrator: Mapped[str] = mapped_column(String(255))

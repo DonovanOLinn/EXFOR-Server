@@ -1,8 +1,8 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy import Date, Integer, String, ForeignKey, select, delete
 from marshmallow import fields, Schema
-from database import db
-# from ships import Ships
+from app.models import db
+# from .ships import Ships
 
 
 class Species(db.Model):

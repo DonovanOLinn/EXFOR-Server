@@ -1,17 +1,18 @@
 from bs4 import BeautifulSoup
 import requests
 from util import parent_child_parser
-from database import db
+from app.models import db
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from datetime import datetime
-from models.characters import Characters
+from app.models.characters import Characters
 from util import episode_dictionary
 
 def character_name_scraper(parser):
     f_name = parent_child_parser(parser, "First Name")
     l_name = parent_child_parser(parser, "Last Name")
     return f"{f_name} {l_name}"
+
 def character_description_scraper(parser):
     parent = parser.find("td", class_="gradient")
     descriptions = [child for child in parent.children if child.name == 'p']

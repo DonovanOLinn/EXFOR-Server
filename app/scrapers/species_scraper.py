@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
-from database import db
+from app.models import db
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from datetime import datetime
-from models.species import Species
+from app.models.species import Species
 def species_apperance_(parser): 
     try: 
         species_finder = parser.find("h3",string="General Apperance" )
@@ -117,6 +117,9 @@ def species_scraper():
         patron = species_patron(soup)
         tech_level = species_tech_level(soup)
         nickname = species_nickname(soup)
+        # Need to set up separate system to catch scraper errors for individual investigation
+        if nickname[:5] == "Error":
+            nickname = "Unknown"
         coalition = coalition_dict[species]
 
         species_dict[species] = {

@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
-from database import db
+from app.models import db
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from datetime import datetime
-from models.planets import Planets
+from app.models.planets import Planets
 from util import parent_child_parser
 # planet_id planet_name planet_nickname
 
@@ -28,6 +28,7 @@ def planet_name_scraper(parser):
         pass
 
 def planet_nickname_scraper(parser):
+    #  TODO Seems to be returning the regular name, not the nickname
     return parent_child_parser(parser, "Nickname")
 
 def add_to_db(planet_dict):

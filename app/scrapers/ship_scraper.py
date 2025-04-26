@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
-from database import db
+from app.models import db
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from datetime import datetime
-from models.ships import Ships
+from app.models.ships import Ships
 from util import parent_child_parser, species_dictionary
 
 def ship_name_scraper(parser):
@@ -74,16 +74,14 @@ def ship_scraper():
 
     for ship in nested_ships:
         ships.append(ship.get('href'))
-    print(ships)
+    # print(ships)
 
     id = 1
 
     for ship in ships:
         specific_ship_request = requests.get(f'https://expeditionary-force-by-craig-alanson.fandom.com{ship}')
-        print(ship)
-        if specific_ship_request.status_code == 200:
-            print('Connected successfully')
-        else: 
+        # print(ship)
+        if specific_ship_request.status_code != 200:
             print(f"Error with {ship} page being parsed.")
             return f"Error with {ship} page being parsed."
         
@@ -98,6 +96,9 @@ def ship_scraper():
         ship_type = ship_type_scraper(ship_soup)
         status = ship_status_scraper(ship_soup)
         species = ship_species_scraper(ship_soup)
+        if species == "No Data" or species == 15:
+            continue
+            # species == 15
 
         # Storing the info inside of a dictionary
         ships_dict[ship_name] = {
@@ -107,8 +108,6 @@ def ship_scraper():
             'status': status, 
             'species_id': species
         }
-        if species == "No Data":
-            species == 15
         print(f"Ship name: {ship_name}, Type: {ship_type}, Status: {status}, Species: {species}, Ship_id: {ship_id}")
 
         id += 1
