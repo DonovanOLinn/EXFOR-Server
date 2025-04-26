@@ -9,8 +9,8 @@ def run_all_scrapers():
     try:
         # species_scraper()
         # ship_scraper()
-        planet_scraper()
-        # book_scraper()
+        # planet_scraper()
+        book_scraper()
         # character_scraper()
     except Exception as e:
         print(f"Error: {e}")
