@@ -6,28 +6,6 @@ from sqlalchemy import select
 from datetime import datetime
 from app.models.books import Books
 
-# def connect_database():
-#     db_name = "expeditionary_force"
-#     user = "root"
-#     password = "CodingTemple"
-#     host = "localhost"
-
-#     try:
-#         conn = mysql.connector.connect(
-#             database = db_name,
-#             user = user,
-#             password = password,
-#             host = host
-#         )
-#         print("Connected to MySQL database successfully.")
-#         return conn
-#     except Error as e:
-#         print(f"Error: {e}")
-#         return None
-#     except Exception as e:
-#         print(f"General Error: {e}")
-#         return None
-
 def author_parser_book(parser):
     try:
         author_finder = parser.find("h3",string="Author" )
@@ -147,7 +125,6 @@ def add_to_db(book_dict, book_title):
                         setattr(book, field, value)
                     session.commit()
                 
-
 
 def book_scraper():
     book_title = ['ExForce_1:_Columbus_Day', 'ExForce_2:_Spec_Ops', 'ExForce_3:_Paradise', 'ExForce_3.5:_Trouble_on_Paradise', 'ExForce_4:_Black_Ops',
