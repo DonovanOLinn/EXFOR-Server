@@ -35,7 +35,7 @@ def add_to_db(planet_dict):
     for planet, info in planet_dict.items():
         with Session(db.engine) as session:
             with session.begin():
-                query = select(Planets).filter(Planets.planet_id == info['planet_id'])
+                query = select(Planets).filter(Planets.id == info['id'])
                 result = session.execute(query).scalars().first()
                 print(planet, result)
 
@@ -43,8 +43,8 @@ def add_to_db(planet_dict):
                 if result == None:
                     # planet_id, ship_name, ship_type, status, species_id
                     new_planet = Planets(
-                        planet_id = info['planet_id'],
-                        planet_name=info['planet_name'],
+                        id = info['id'],
+                        name=info['name'],
                         planet_nickname=info['planet_nickname']
                     )
                     print(new_planet)
@@ -85,17 +85,17 @@ def planet_scraper():
 
         planet_soup = BeautifulSoup(planet_info.text, 'html.parser')
 
-        planet_name = planet_name_scraper(planet_soup)
+        name = planet_name_scraper(planet_soup)
         planet_nickname = planet_nickname_scraper(planet_soup)
-        planet_id = id
-        print(planet_name, planet_nickname if planet_nickname != 'No Data' else planet_name, planet_id)
+
+        print(name, planet_nickname if planet_nickname != 'No Data' else name, id)
         id += 1
 
-        planets_dict[planet_name] = {
-            'planet_name' : planet_name,
+        planets_dict[name] = {
+            'name' : name,
             # TODO: planet_nickname is returning None. Might need to manually enter information on original name or find another source.
-            'planet_nickname' : planet_nickname if planet_nickname != 'No Data' else planet_name,
-            'planet_id' : planet_id
+            'planet_nickname' : planet_nickname if planet_nickname != 'No Data' else name,
+            'id' : id
         }
     
     add_to_db(planets_dict)

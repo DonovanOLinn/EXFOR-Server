@@ -8,8 +8,8 @@ import datetime
 
 class Books(db.Model):
     __tablename__ = "books"
-    book_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    book_name: Mapped[str] = mapped_column(String(255))
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(255))
     release_date: Mapped[datetime.date] = mapped_column(Date)
     previous: Mapped[str] = mapped_column(String(255))
     next: Mapped[str] = mapped_column(String(255))
@@ -23,8 +23,8 @@ class Books(db.Model):
     character: Mapped["Characters"] = relationship("Characters", back_populates='first_book_appearance', uselist=True)
 
 class BookSchema(Schema):
-    book_id = fields.Int(required=False)
-    book_name = fields.Str(required=True)
+    id = fields.Int(required=False)
+    name = fields.Str(required=True)
     release_date = fields.Str(required=True)
     previous = fields.Str(required=True)
     next = fields.Str(required=True)
@@ -35,7 +35,7 @@ class BookSchema(Schema):
     run_time = fields.Str(required=True)
 
     class Meta: 
-        fields = ('book_id', 'book_name', 'release_date', 'previous', 'next', 'author_summary', 'image', 'author', 'narrator', 'run_time')
+        fields = ('id', 'name', 'release_date', 'previous', 'next', 'author_summary', 'image', 'author', 'narrator', 'run_time')
 
 book_schema = BookSchema()
 books_schema = BookSchema(many=True)

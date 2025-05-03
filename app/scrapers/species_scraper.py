@@ -54,15 +54,15 @@ def add_to_db(species_dict, species_list):
 
         with Session(db.engine) as session:
             with session.begin():
-                query = select(Species).filter(Species.species_id == species_info['species_id'])
+                query = select(Species).filter(Species.id == species_info['id'])
                 result = session.execute(query).scalars().first()
                 print(current_species, result)
 
                 # If result is None, so if there is no result with that id present.
                 if result == None:
                     new_species = Species(
-                        species_id = species_info['species_id'],
-                        species_name=species_info['species_name'],
+                        id = species_info['id'],
+                        name=species_info['name'],
                         appearance=species_info['appearance'],
                         patron=species_info['patron'],
                         tech_level=species_info['tech_level'],
@@ -111,8 +111,8 @@ def species_scraper():
             print("Error in code")
 
         soup = BeautifulSoup(html_content, 'html.parser')
-        species_id = id
-        species_name = species
+        # species_id = id
+        name = species
         species_apperance = species_apperance_(soup)
         patron = species_patron(soup)
         tech_level = species_tech_level(soup)
@@ -123,8 +123,8 @@ def species_scraper():
         coalition = coalition_dict[species]
 
         species_dict[species] = {
-            "species_id": species_id, 
-            "species_name": species_name,
+            "id": id, 
+            "name": name,
             "appearance": species_apperance,
             "patron": patron,
             "tech_level": tech_level,
@@ -133,8 +133,8 @@ def species_scraper():
         }
         id += 1
 
-        print(f"Species_id: {species_id}")
-        print(f"Species_name: {species_name}")
+        print(f"id: {id}")
+        print(f"name: {name}")
         print(f"Appearance: {species_apperance}")
         print(f"Patron: {patron}")
         print(f"tech_level: {tech_level}")
