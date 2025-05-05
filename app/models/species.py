@@ -7,8 +7,8 @@ from app.models import db
 
 class Species(db.Model):
     __tablename__ = "species"
-    species_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    species_name: Mapped[str] = mapped_column(String(255))
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(255))
     appearance: Mapped[str] = mapped_column(String(255))
     patron: Mapped[str] = mapped_column(String(255))
     tech_level: Mapped[str] = mapped_column(String(255))
@@ -18,8 +18,8 @@ class Species(db.Model):
     ship: Mapped["Ships"] = relationship("Ships", back_populates='species', uselist=True)
 
 class SpeciesSchema(Schema):
-    species_id = fields.Int(required=False)
-    species_name = fields.Str(required=True)
+    id = fields.Int(required=False)
+    name = fields.Str(required=True)
     appearance = fields.Str(required=True)
     patron = fields.Str(required=True)
     tech_level = fields.Str(required=True)
@@ -27,7 +27,7 @@ class SpeciesSchema(Schema):
     coalition = fields.Str(required=True)
 
     class Meta: 
-        fields = ('species_id', 'species_name', 'appearance', 'patron', 'tech_level', 'nickname', 'coalition')
+        fields = ('id', 'name', 'appearance', 'patron', 'tech_level', 'nickname', 'coalition')
 
 species_schema = SpeciesSchema()
 speciess_schema = SpeciesSchema(many=True)

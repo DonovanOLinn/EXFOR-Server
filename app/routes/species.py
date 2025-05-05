@@ -13,16 +13,16 @@ def get_species():
     species = result.all()
     return speciess_schema.dump(species)
 
-@species_bp.route("/species/<int:species_id>", methods=['GET'])
-def get_character_by_id(species_id):
-    row = select(Species).where(Species.species_id == species_id)
+@species_bp.route("/species/<int:id>", methods=['GET'])
+def get_character_by_id(id):
+    row = select(Species).where(Species.id == id)
     result = db.session.execute(row).scalar_one_or_none()
     # character = result
     return species_schema.dump(result)
 
-@species_bp.route("/species/<string:species_name>", methods=['GET'])
-def get_character_by_name(species_name):
-    row = select(Species).where(Species.species_name == species_name)
+@species_bp.route("/species/<string:name>", methods=['GET'])
+def get_character_by_name(name):
+    row = select(Species).where(Species.name == name)
     result = db.session.execute(row).scalar_one_or_none()
     # character = result
     return species_schema.dump(result)

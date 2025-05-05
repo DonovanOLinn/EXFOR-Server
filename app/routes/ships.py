@@ -13,16 +13,16 @@ def get_ships():
     ships = result.all()
     return ships_schema.dump(ships)
 
-@ships_bp.route("/ships/<int:ship_id>", methods=['GET'])
-def get_character_by_id(ship_id):
-    row = select(Ships).where(Ships.ship_id == ship_id)
+@ships_bp.route("/ships/<int:id>", methods=['GET'])
+def get_character_by_id(id):
+    row = select(Ships).where(Ships.id == id)
     result = db.session.execute(row).scalar_one_or_none()
     # character = result
     return ship_schema.dump(result)
 
-@ships_bp.route("/ships/<string:ship_name>", methods=['GET'])
-def get_character_by_name(ship_name):
-    row = select(Ships).where(Ships.ship_name == ship_name)
+@ships_bp.route("/ships/<string:name>", methods=['GET'])
+def get_character_by_name(name):
+    row = select(Ships).where(Ships.name == name)
     result = db.session.execute(row).scalar_one_or_none()
     # character = result
     return ship_schema.dump(result)
