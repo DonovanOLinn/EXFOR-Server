@@ -96,15 +96,15 @@ def add_to_db(book_dict, book_title):
 
         with Session(db.engine) as session:
             with session.begin():
-                query = select(Books).filter(Books.book_id == book_info['book_id'])
+                query = select(Books).filter(Books.id == book_info['id'])
                 result = session.execute(query).scalars().first()
                 print(current_book, result)
 
                 # If result is None, so if there is no result with that id present.
                 if result == None:
                     new_book = Books(
-                        book_id = book_info['book_id'],
-                        book_name=book_info['book_name'],
+                        id = book_info['id'],
+                        name=book_info['name'],
                         release_date=book_info['release_date'],
                         previous=book_info['previous'],
                         next=book_info['next'],
@@ -159,7 +159,7 @@ def book_scraper():
 
         book_dict[book] = {
             "author": author,
-            "book_name": book,
+            "name": book,
             "narrator": narrator,
             "release_date": release_date,
             "run_time": run_time,
@@ -167,7 +167,7 @@ def book_scraper():
             "next": next_book,
             "author_summary": summary,
             "image": image,
-            "book_id": id
+            "id": id
         }
         id += 1
 

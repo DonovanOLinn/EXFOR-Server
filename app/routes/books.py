@@ -13,16 +13,16 @@ def get_books():
     books = result.all()
     return books_schema.dump(books)
 
-@books_bp.route("/books/<int:book_id>", methods=['GET'])
-def get_book_by_id(book_id):
-    row = select(Books).where(Books.book_id == book_id)
+@books_bp.route("/books/<int:id>", methods=['GET'])
+def get_book_by_id(id):
+    row = select(Books).where(Books.id == id)
     result = db.session.execute(row).scalar_one_or_none()
     book = result
     return book_schema.dump(book)
 
-@books_bp.route("/books/<string:book_name>", methods=['GET'])
-def get_book_by_name(book_name):
-    row = select(Books).where(Books.book_name == book_name)
+@books_bp.route("/books/<string:name>", methods=['GET'])
+def get_book_by_name(name):
+    row = select(Books).where(Books.name == name)
     result = db.session.execute(row).scalar_one_or_none()
     book = result
     return book_schema.dump(book)

@@ -37,7 +37,7 @@ def add_to_db(ships_dict):
     for ship, info in ships_dict.items():
         with Session(db.engine) as session:
             with session.begin():
-                query = select(Ships).filter(Ships.ship_id == info['ship_id'])
+                query = select(Ships).filter(Ships.id == info['id'])
                 result = session.execute(query).scalars().first()
                 print(ship, result)
 
@@ -45,8 +45,8 @@ def add_to_db(ships_dict):
                 if result == None:
                     # ship_id, ship_name, ship_type, status, species_id
                     new_ship = Ships(
-                        ship_id = info['ship_id'],
-                        ship_name=info['ship_name'],
+                        id = info['id'],
+                        name=info['name'],
                         ship_type=info['ship_type'],
                         status=info['status'],
                         species_id=info['species_id']
@@ -91,8 +91,8 @@ def ship_scraper():
         
         # Setting up the Soup and grabbing the info
         ship_soup = BeautifulSoup(specific_ship_request.text, 'html.parser')
-        ship_id = id
-        ship_name = ship_name_scraper(ship_soup)
+        # ship_id = id
+        name = ship_name_scraper(ship_soup)
         ship_type = ship_type_scraper(ship_soup)
         status = ship_status_scraper(ship_soup)
         species = ship_species_scraper(ship_soup)
@@ -101,14 +101,14 @@ def ship_scraper():
             # species == 15
 
         # Storing the info inside of a dictionary
-        ships_dict[ship_name] = {
-            'ship_id': ship_id,
-            'ship_name': ship_name,
+        ships_dict[name] = {
+            'id': id,
+            'name': name,
             'ship_type': ship_type,
             'status': status, 
             'species_id': species
         }
-        print(f"Ship name: {ship_name}, Type: {ship_type}, Status: {status}, Species: {species}, Ship_id: {ship_id}")
+        print(f"Ship name: {name}, Type: {ship_type}, Status: {status}, Species: {species}, id: {id}")
 
         id += 1
     add_to_db(ships_dict)

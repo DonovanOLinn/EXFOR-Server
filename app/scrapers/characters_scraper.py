@@ -39,13 +39,13 @@ def add_to_db(character_dict):
     for character, info in character_dict.items():
         with Session(db.engine) as session:
             with session.begin():
-                query = select(Characters).filter(Characters.character_name == info['name'])
+                query = select(Characters).filter(Characters.name == info['name'])
                 result = session.execute(query).scalars().first()
 
                 if result == None:
                     new_character = Characters(
-                        character_id=info['id'],
-                        character_name=info['name'],
+                        id=info['id'],
+                        name=info['name'],
                         description=info['description'],
                         status=info['status'],
                         last_known_location=info['last_known_location'],
