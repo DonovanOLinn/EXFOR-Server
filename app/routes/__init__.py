@@ -1,3 +1,6 @@
+from flask_caching import Cache
+cache = Cache()
+
 from .ships import ships_bp
 from .books import books_bp
 from .character import characters_bp
